@@ -1,0 +1,9 @@
+[package]
+name = "sert-attendance-client"
+version = "0.1.0"
+authors = ["Jackson Lewis <st.japa6@gmail.com>"]
+
+[dependencies]
+rocket="0.3.6"
+ws = "0.7.3"
+rocket_codegen = "0.3.6"

@@ -7,3 +7,4 @@ authors = ["Jackson Lewis <st.japa6@gmail.com>"]
 rocket="0.3.6"
 ws = "0.7.3"
 rocket_codegen = "0.3.6"
+firebase = "0.8.0"

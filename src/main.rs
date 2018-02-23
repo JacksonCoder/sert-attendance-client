@@ -1,11 +1,15 @@
 #![feature(plugin)]
 #![plugin(rocket_codegen)]
 extern crate rocket;
+extern crate ws;
+extern crate firebase;
 mod websocket;
+mod application;
 use std::fs::File;
 use std::io::Read;
 use rocket::response::content::Html;
 use std::thread;
+use application::Application;
 
 
 #[get("/")]
@@ -18,10 +22,20 @@ fn return_page() -> Html<String> {
 
 
 fn main() {
+    let handler = |msg: ws::Message| {
+        let msg2 = msg.clone();
+        let words = match msg {
+            ws::Message::Text(ref some_string) => Some(some_string.split_whitespace()),
+            _ => None
+        };
+        match words {
+            None => ws::Message::from(""),
+            _ => msg2
+        }
+    };
     let server_thread = thread::spawn( || {
         rocket::ignite().mount("/", routes![return_page]).launch();
     });
-    let mut socket = websocket::WebSocket::new("127.0.0.1:1234");
-    socket.start();
-    loop {}
+    let mut app = Application::from_db("", &handler);
+    app.main();
 }

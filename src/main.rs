@@ -5,6 +5,7 @@ extern crate ws;
 extern crate firebase;
 mod websocket;
 mod application;
+mod db;
 use std::fs::File;
 use std::io::Read;
 use rocket::response::content::Html;
